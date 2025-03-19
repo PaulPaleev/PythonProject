@@ -12,18 +12,16 @@ def test_index(client, auth):
     assert b'test title' in response.data
     assert b'by test on 2018-01-01' in response.data
     assert b'test\nbody' in response.data
-    # TEST TO FIX
-    assert b'href="/1/update"' in response.data
+    assert b'Edit' in response.data # href="blog/1/update"
 
 @pytest.mark.parametrize('path', (
-    '/create',
-    '/1/update',
-    '/1/delete',
+    'blog/create',
+    'blog/1/update',
+    'blog/1/delete',
 ))
 def test_login_required(client, path):
     response = client.post(path)
-    # TEST TO FIX
-    #assert response.headers["Location"] == "/auth/login"
+    assert response.headers["Location"] == "/auth/login"
 
 
 def test_author_required(app, client, auth):
@@ -38,8 +36,7 @@ def test_author_required(app, client, auth):
     assert client.post('blog/1/update').status_code == 403
     assert client.post('blog/1/delete').status_code == 403
     # current user doesn't see edit link
-    # TEST TO FIX
-    #assert b'href="/1/update"' not in client.get('/').data
+    assert b'href="1/update"' not in client.get('/blog/').data
 
 @pytest.mark.parametrize('path', (
     '/2/update',

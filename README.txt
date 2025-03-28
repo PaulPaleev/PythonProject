@@ -1,4 +1,4 @@
-Set-ExecutionPolicy RemoteSigned открыть повершел от админа и поставить Y вместо N
+Set-ExecutionPolicy RemoteSigned
 .venv\Scripts\activate
 deactivate
 flask --app flaskr run
